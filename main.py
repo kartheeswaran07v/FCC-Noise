@@ -69,4 +69,4 @@ def liqNoise():
 
 # Server run
 if __name__ == "__main__":
-    app.run(debug=True, port=8989)
+    app.run(debug=False)
