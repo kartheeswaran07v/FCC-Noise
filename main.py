@@ -20,18 +20,18 @@ db = SQLAlchemy(app)
 
 # Creation of Database table
 #
-# class products(db.Model):
-#     __tablename__ = "products"
-#     id = Column(Integer, primary_key=True)
-#     price = Column(Integer)
-#     name = Column(String(300))
-#     stock = Column(Integer)
-#     discount = Column(Float)
-#     # relationship as parent
+class products(db.Model):
+    __tablename__ = "products"
+    id = Column(Integer, primary_key=True)
+    price = Column(Integer)
+    name = Column(String(300))
+    stock = Column(Integer)
+    discount = Column(Float)
+    # relationship as parent
 #
 #
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 # Routes
