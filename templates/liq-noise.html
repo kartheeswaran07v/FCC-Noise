@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Liqued</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 800px;
+        }
+
+        label {
+            width: auto;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,select {
+            width: 100%;
+            padding: 8px;
+            font-size: 12px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+ <form action="{{url_for('liqNoise')}}" method="post">
+        <div class="row ">
+            <div class="col-12">
+                <label style="text-align: center;">Liquid Noise Calculation</label>
+            </div>
+
+            <div class="col-3">
+
+                <input type="text" id="valveDia" name="valveDia" value="{{data['valveDia'][0]}}" required placeholder="Valve Dia">
+
+                <input type="text" id="seatDia" name="seatDia" value="{{data['seatDia'][0]}}" required placeholder="Seat Dia">
+
+                <input type="text" id="massFlowRate" name="massFlowRate" value="{{data['massFlowRate'][0]}}" required placeholder="Mass Flow Rate">
+
+                <input type="text" id="iPressure" name="iPressure" value="{{data['iPressure'][0]}}" required placeholder="Inlet Pressure">
+
+                <input type="text" id="oPressure" name="oPressure" value="{{data['oPressure'][0]}}" required placeholder="Outlet Pressure">
+
+                <input type="text" id="vPressure" name="vPressure" value="{{data['vPressure'][0]}}" required placeholder="VapourPressure">
+
+                <input type="text" id="densityLiq" name="densityLiq" value="{{data['densityLiq'][0]}}" required placeholder="Density Of Liquid">
+
+                <input type="text" id="internalPipeDia" name="internalPipeDia" value="{{data['internalPipeDia'][0]}}" required placeholder="Internal Pipe Dia">
+
+            </div>
+            <div style="margin:0% ;padding:0%" class="col-1">
+                <!-- <label for="">unit</label> -->
+                <select id="valveDiaUnit" name="valveDia" required>
+                    <option value="m" selected>m</option>
+<!--                    <option value="inch">inch</option>-->
+<!--                    <option value="mm">mm</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="seatDiaUnit" name="seatDia" required>
+                    <option value="m" selected>m</option>
+<!--                    <option value="inch">inch</option>-->
+<!--                    <option value="mm">mm</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="massFlowRateUnit" name="massFlowRate" required>
+<!--                    <option value="m/hr" selected>m3/h</option>-->
+<!--                    <option value="scfh">scfh</option>-->
+<!--                    <option value="gpm">gpm</option>-->
+<!--                    <option value="lb/hr">lb/hr</option>-->
+                    <option value="kg/hr">kg/s</option>
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="iPressureUnit" name="iPressure" required>
+<!--                    <option value="psia" selected>psia</option>-->
+                    <option value="pa">pa</option>
+<!--                    <option value="bar">bar</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="oPressureUnit" name="oPressure" required>
+<!--                    <option value="psia" selected>psia</option>-->
+                    <option value="pa">pa</option>
+<!--                    <option value="bar">bar</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="vPressureUnit" name="vPressure" required>
+<!--                    <option value="psia" selected>psia</option>-->
+                    <option value="pa">pa</option>
+<!--                    <option value="bar">bar</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="densityLiqUnit" name="densityLiq" required>
+                    <option value="kg/m3" selected>kg/m3</option>
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="internalPipeDiaUnit" name="internalPipeDia" required>
+                    <option value="m" selected>m</option>
+<!--                    <option value="inch">inch</option>-->
+<!--                    <option value="mm">mm</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+            </div>
+
+            <div style="margin:0% ;padding:0%" class="col-1">
+
+            </div>
+            <!-- <div style="margin:0% ;padding:0%; " class="col-2">
+
+            </div> -->
+            <div class="col-3">
+
+
+                <!-- <input type="text" id="densityPipe" name="densityPipe" required placeholder="Density Pipe"> -->
+
+                <!-- <input type="text" id="speedSoundPipe" name="speedSoundPipe" required placeholder="Speed of Sound in Pipe"> -->
+
+                <!-- <input type="text" id="speedSoundPipe" name="speedSoundPipe" required placeholder="Outlet Speed Sound Pipe"> -->
+
+                <!-- <input type="text" id="densityAir" name="densityAir" required placeholder="Density Air"> -->
+
+                <!-- <input type="text" id="speedSoundAir" name="speedSoundAir" required placeholder="Speed Sound Air"> -->
+
+
+
+                <input type="text" id="pipeWallThickness" name="pipeWallThickness" value="{{data['pipeWallThickness'][0]}}" required placeholder="Pipe Wall Thickness">
+
+                <input type="text" id="speedSoundLiq" name="speedSoundLiq" value="{{data['speedSoundLiq'][0]}}" required placeholder="Speed Sound Liquid">
+
+                <input type="text" id="reqCV" name="reqCV" value="{{data['reqCV'][0]}}" required placeholder="Required CV">
+
+                <input type="text" id="FL" name="FL" value="{{data['FL'][0]}}" required placeholder="FL">
+
+                <input type="text" id="fi" name="fi" value="{{data['fi'][0]}}" required placeholder="fi">
+
+                <input type="text" id="FD" name="FD" value="{{data['FD'][0]}}" required placeholder="FD">
+
+                <input type="text" id="rw" name="rw" value="{{data['rw'][0]}}" required placeholder="rw">
+
+            </div>
+
+            <div style="margin:0% ;padding:0%" class="col-1">
+                <!-- <label for="">unit</label> -->
+
+
+                <select id="pipeWallThicknessUnit" name="pipeWallThickness" required>
+                    <option value="m" selected>m</option>
+<!--                    <option value="inch">inch</option>-->
+<!--                    <option value="mm">mm</option>-->
+                    <!-- Add more options as needed -->
+                </select>
+
+                <select id="speedSoundLiqUnit" name="speedSoundLiq" required>
+                    <option value="grade1" selected>m/sec</option>
+                    <!-- Add more options as needed -->
+                </select>
+
+
+            </div>
+
+            <div class="col-3" style="text-align: center;">
+                <div class="row">
+                    <div class="col-12">
+                        <p>Output</p>
+                    </div>
+                    <div class="col-9" style="text-align: right; padding-right: 0px;">
+                       <h1>{{value}} </h1>
+                    </div>
+                    <div class="col-3" style="text-align: left; padding-left: 5px; font-size: 0.75rem; padding-top: 25px;">
+                        <p>dBA</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="col-12">
+                <button type="submit">Calculate</button>
+            </div>
+
+        </div>
+ </form>
+
+
+
+
+
+
+
+</body>
+
+</html>
