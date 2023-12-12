@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, ForeignKey, String, Boolean, DateTime, F
 from sqlalchemy.orm import relationship
 from liq_noise import Lpe1m
 from gas_noise import lpae_1m
+import os
 
 # app configuration
 app = Flask(__name__)
@@ -13,7 +14,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "kkkkk"
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///NITTO_DB.db"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///NITTO_DB.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL1", "sqlite:///FCC_DB.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
