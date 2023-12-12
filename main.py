@@ -28,6 +28,8 @@ class products(db.Model):
     stock = Column(Integer)
     discount = Column(Float)
     # relationship as parent
+
+
 #
 #
 with app.app_context():
@@ -48,12 +50,16 @@ def gasNoise():
 
 @app.route('/liq-noise', methods=["GET", "POST"])
 def liqNoise():
-    initial_data = {'FD': None, 'FL': None, 'densityLiq': None, 'fi': None, 'iPressure': None, 'internalPipeDia': None, 'massFlowRate': None, 'oPressure': None, 'pipeWallThickness': None, 'reqCV': None, 'rw': None, 'seatDia': None, 'speedSoundLiq': None, 'vPressure': None, 'valveDia': None}
+    initial_data = {'FD': None, 'FL': None, 'densityLiq': None, 'fi': None, 'iPressure': None, 'internalPipeDia': None,
+                    'massFlowRate': None, 'oPressure': None, 'pipeWallThickness': None, 'reqCV': None, 'rw': None,
+                    'seatDia': None, 'speedSoundLiq': None, 'vPressure': None, 'valveDia': None}
     if request.method == 'POST':
         data = request.form.to_dict(flat=False)
         a = jsonify(data).json
-        output_ = Lpe1m(float(a['fi'][0]), float(a['FD'][0]), float(a['reqCV'][0]), float(a['iPressure'][0]), float(a['oPressure'][0]), float(a['vPressure'][0]),
-                        float(a['densityLiq'][0]), float(a['speedSoundLiq'][0]), float(a['massFlowRate'][0]), float(a['rw'][0]), float(a['FL'][0]),
+        output_ = Lpe1m(float(a['fi'][0]), float(a['FD'][0]), float(a['reqCV'][0]), float(a['iPressure'][0]),
+                        float(a['oPressure'][0]), float(a['vPressure'][0]),
+                        float(a['densityLiq'][0]), float(a['speedSoundLiq'][0]), float(a['massFlowRate'][0]),
+                        float(a['rw'][0]), float(a['FL'][0]),
                         float(a['seatDia'][0]), float(a['valveDia'][0]), 7800, float(a['pipeWallThickness'][0]), 5000,
                         1293, float(a['internalPipeDia'][0]), 343)
         print(output_)
