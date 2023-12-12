@@ -32,9 +32,8 @@ class products(db.Model):
     # relationship as parent
 
 
-
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 # Routes
@@ -57,13 +56,17 @@ def liqNoise():
     if request.method == 'POST':
         data = request.form.to_dict(flat=False)
         a = jsonify(data).json
-        output_ = Lpe1m(float(a['fi'][0]), float(a['FD'][0]), float(a['reqCV'][0]), float(a['iPressure'][0]),
-                        float(a['oPressure'][0]), float(a['vPressure'][0]),
-                        float(a['densityLiq'][0]), float(a['speedSoundLiq'][0]), float(a['massFlowRate'][0]),
-                        float(a['rw'][0]), float(a['FL'][0]),
-                        float(a['seatDia'][0]), float(a['valveDia'][0]), 7800, float(a['pipeWallThickness'][0]), 5000,
-                        1293, float(a['internalPipeDia'][0]), 343)
-        print(output_)
+        try:
+            output_ = Lpe1m(float(a['fi'][0]), float(a['FD'][0]), float(a['reqCV'][0]), float(a['iPressure'][0]),
+                            float(a['oPressure'][0]), float(a['vPressure'][0]),
+                            float(a['densityLiq'][0]), float(a['speedSoundLiq'][0]), float(a['massFlowRate'][0]),
+                            float(a['rw'][0]), float(a['FL'][0]),
+                            float(a['seatDia'][0]), float(a['valveDia'][0]), 7800, float(a['pipeWallThickness'][0]),
+                            5000,
+                            1293, float(a['internalPipeDia'][0]), 343)
+        except:
+            output_ = "N/A"
+        # print(output_)
         return render_template('liq-noise.html', data=a, value=output_)
     return render_template('liq-noise.html', data=initial_data, value=0)
 
