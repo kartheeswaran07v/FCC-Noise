@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Liquid Noise Calculation</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
-    <style>
+     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -27,20 +27,42 @@
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 800px;
+            width: 1300px;
         }
 
         label {
+            margin-top: 8px;
+            width: 140px;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .label1 {
+            color: #478cb5;
             width: auto;
-            display: block;
+            margin: 0px;
+            padding: 0%;
+            font-size: 22px;
             margin-bottom: 8px;
             font-weight: bold;
         }
 
-        input,select {
+        input {
             width: 100%;
             padding: 8px;
             font-size: 12px;
+            margin-left: 20px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            width: 60px;
+            padding: 8px;
+            font-size: 12px;
+            margin-left: 20px;
             margin-bottom: 12px;
             box-sizing: border-box;
             border: 1px solid #ccc;
@@ -48,173 +70,327 @@
         }
 
         button {
-            background-color: #4caf50;
+            background-color: #478cb5;
             color: #fff;
             padding: 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
+            width: 80%;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #0f4564;
         }
     </style>
 </head>
 
 <body>
 
- <form action="{{url_for('liqNoise')}}" method="post">
-        <div class="row ">
-            <div class="col-12">
-                <label style="text-align: center;">Liquid Noise Calculation</label>
+    <form action="{{url_for('liqNoise')}}" method="post">
+        <div class="row" style="padding-left: 0px;">
+            <div class="col-12" style="text-align: left;padding-left: 0px;">
+                <label class="label1">Liquid Noise Calculation</label>
+            </div>
+        </div>
+
+        <div class="row " style="margin-top: 15px;">
+
+            <div class="col-5">
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Valve Dia</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="valveDia" name="valveDia" value="{{data['valveDia'][0]}}" required
+                            placeholder="Valve Dia">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="valveDiaUnit" name="valveDia" required>
+                            <option value="m" selected>m</option>
+<!--                            <option value="inch">inch</option>-->
+<!--                            <option value="mm">mm</option>-->
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Seat Dia</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="seatDia" name="seatDia" value="{{data['seatDia'][0]}}" required
+                            placeholder="Seat Dia">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="seatDiaUnit" name="seatDiaUnit" required>
+                            <option value="m" selected>m</option>
+<!--                            <option value="inch">inch</option>-->
+<!--                            <option value="mm">mm</option>-->
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Mass Flow Rate</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="massFlowRate" name="massFlowRate" value="{{data['massFlowRate'][0]}}"
+                            required placeholder="Mass Flow Rate">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="massFlowRateUnit" name="massFlowRateUnit" required>
+<!--                            <option value="m/hr" selected>m3/h</option>-->
+<!--                            <option value="scfh">scfh</option>-->
+<!--                            <option value="gpm">gpm</option>-->
+<!--                            <option value="lb/hr">lb/hr</option>-->
+                            <option value="kg/hr">kg/s</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Inlet Pressure</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="iPressure" name="iPressure" value="{{data['iPressure'][0]}}" required
+                            placeholder="Inlet Pressure">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="iPressureUnit" name="iPressureUnit" required>
+<!--                            <option value="psia" selected>psia</option>-->
+                            <option value="pa">pa</option>
+<!--                            <option value="bar">bar</option>-->
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Outlet Pressure</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="oPressure" name="oPressure" value="{{data['oPressure'][0]}}" required
+                            placeholder="Outlet Pressure">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="oPressureUnit" name="oPressureUnit" required>
+<!--                            <option value="psia" selected>psia</option>-->
+                            <option value="pa">pa</option>
+<!--                            <option value="bar">bar</option>-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Vapour Pressure</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="vPressure" name="vPressure" value="{{data['vPressure'][0]}}" required
+                            placeholder="VapourPressure">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="vPressureUnit" name="vPressureUnit" required>
+<!--                            <option value="psia" selected>psia</option>-->
+                            <option value="pa">pa</option>
+<!--                            <option value="bar">bar</option>-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Density of Liquid</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="densityLiq" name="densityLiq" value="{{data['densityLiq'][0]}}" required
+                            placeholder="Density of Liquid">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="densityLiqUnit" name="densityLiqUnit" required>
+                            <option value="kg/m3" selected>kg/m3</option>
+<!--                            <option value="inch">inch</option>-->
+<!--                            <option value="mm">mm</option>-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Internal Pipe Dia</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="internalPipeDia" name="internalPipeDia"
+                            value="{{data['internalPipeDia'][0]}}" required placeholder="Internal Pipe Dia">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="internalPipeDiaUnit" name="internalPipeDia" required>
+                            <option value="m" selected>m</option>
+<!--                            <option value="inch">inch</option>-->
+<!--                            <option value="mm">mm</option>-->
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- <input type="text" id="valveDia" name="valveDia" value="{{data['valveDia'][0]}}" required placeholder="Valve Dia"> -->
+
+                <!-- <input type="text" id="seatDia" name="seatDia" value="{{data['seatDia'][0]}}" required placeholder="Seat Dia"> -->
+
+                <!-- <input type="text" id="massFlowRate" name="massFlowRate" value="{{data['massFlowRate'][0]}}" required placeholder="Mass Flow Rate"> -->
+
+                <!-- <input type="text" id="iPressure" name="iPressure" value="{{data['iPressure'][0]}}" required placeholder="Inlet Pressure"> -->
+
+                <!-- <input type="text" id="oPressure" name="oPressure" value="{{data['oPressure'][0]}}" required placeholder="Outlet Pressure"> -->
+
+                <!-- <input type="text" id="vPressure" name="vPressure" value="{{data['vPressure'][0]}}" required placeholder="VapourPressure"> -->
+
+                <!-- <input type="text" id="densityLiq" name="densityLiq" value="{{data['densityLiq'][0]}}" required placeholder="Density Of Liquid"> -->
+
+                <!-- <input type="text" id="internalPipeDia" name="internalPipeDia" value="{{data['internalPipeDia'][0]}}" required placeholder="Internal Pipe Dia"> -->
+
             </div>
 
-            <div class="col-3">
+            <div class="col-4">
 
-                <input type="text" id="valveDia" name="valveDia" value="{{data['valveDia'][0]}}" required placeholder="Valve Dia">
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Pipe Wall Thickness</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="pipeWallThickness" name="pipeWallThickness"
+                            value="{{data['pipeWallThickness'][0]}}" required placeholder="Pipe Wall Thickness">
+                    </div>
 
-                <input type="text" id="seatDia" name="seatDia" value="{{data['seatDia'][0]}}" required placeholder="Seat Dia">
+                    <div class="clo-2">
+                        <select id="pipeWallThicknessUnit" name="pipeWallThicknessUnit" required>
+                            <option value="m" selected>m</option>
+<!--                            <option value="inch">inch</option>-->
+<!--                            <option value="mm">mm</option>-->
+                        </select>
+                    </div>
+                </div>
 
-                <input type="text" id="massFlowRate" name="massFlowRate" value="{{data['massFlowRate'][0]}}" required placeholder="Mass Flow Rate">
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Speed Sound Liquid</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="speedSoundLiq" name="speedSoundLiq" value="{{data['speedSoundLiq'][0]}}"
+                            required placeholder="Speed Sound Liquid">
+                    </div>
 
-                <input type="text" id="iPressure" name="iPressure" value="{{data['iPressure'][0]}}" required placeholder="Inlet Pressure">
+                    <div class="clo-4">
+                        <select id="speedSoundLiqUnit" name="speedSoundLiqUnit" required>
+                            <option value="grade1" selected>m/sec</option>
+                        </select>
+                    </div>
+                </div>
 
-                <input type="text" id="oPressure" name="oPressure" value="{{data['oPressure'][0]}}" required placeholder="Outlet Pressure">
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Required CV</label>
+                    </div>
+                    <div class="clo-4">
 
-                <input type="text" id="vPressure" name="vPressure" value="{{data['vPressure'][0]}}" required placeholder="VapourPressure">
+                        <input type="text" id="reqCV" name="reqCV" value="{{data['reqCV'][0]}}" required
+                            placeholder="Required CV">
 
-                <input type="text" id="densityLiq" name="densityLiq" value="{{data['densityLiq'][0]}}" required placeholder="Density Of Liquid">
+                    </div>
 
-                <input type="text" id="internalPipeDia" name="internalPipeDia" value="{{data['internalPipeDia'][0]}}" required placeholder="Internal Pipe Dia">
+                    <div class="clo-4">
 
-            </div>
-            <div style="margin:0% ;padding:0%" class="col-1">
-                <!-- <label for="">unit</label> -->
-                <select id="valveDiaUnit" name="valveDia" required>
-                    <option value="m" selected>m</option>
-<!--                    <option value="inch">inch</option>-->
-<!--                    <option value="mm">mm</option>-->
-                    <!-- Add more options as needed -->
-                </select>
+                    </div>
+                </div>
 
-                <select id="seatDiaUnit" name="seatDia" required>
-                    <option value="m" selected>m</option>
-<!--                    <option value="inch">inch</option>-->
-<!--                    <option value="mm">mm</option>-->
-                    <!-- Add more options as needed -->
-                </select>
+                <div class="row">
+                    <div class="clo-4">
+                        <label>FL</label>
+                    </div>
+                    <div class="clo-4">
 
-                <select id="massFlowRateUnit" name="massFlowRate" required>
-<!--                    <option value="m/hr" selected>m3/h</option>-->
-<!--                    <option value="scfh">scfh</option>-->
-<!--                    <option value="gpm">gpm</option>-->
-<!--                    <option value="lb/hr">lb/hr</option>-->
-                    <option value="kg/hr">kg/s</option>
-                    <!-- Add more options as needed -->
-                </select>
+                        <input type="text" id="FL" name="FL" value="{{data['FL'][0]}}" required placeholder="FL">
 
-                <select id="iPressureUnit" name="iPressure" required>
-<!--                    <option value="psia" selected>psia</option>-->
-                    <option value="pa">pa</option>
-<!--                    <option value="bar">bar</option>-->
-                    <!-- Add more options as needed -->
-                </select>
+                    </div>
 
-                <select id="oPressureUnit" name="oPressure" required>
-<!--                    <option value="psia" selected>psia</option>-->
-                    <option value="pa">pa</option>
-<!--                    <option value="bar">bar</option>-->
-                    <!-- Add more options as needed -->
-                </select>
+                    <div class="clo-4">
 
-                <select id="vPressureUnit" name="vPressure" required>
-<!--                    <option value="psia" selected>psia</option>-->
-                    <option value="pa">pa</option>
-<!--                    <option value="bar">bar</option>-->
-                    <!-- Add more options as needed -->
-                </select>
+                    </div>
+                </div>
 
-                <select id="densityLiqUnit" name="densityLiq" required>
-                    <option value="kg/m3" selected>kg/m3</option>
-                    <!-- Add more options as needed -->
-                </select>
+                <div class="row">
+                    <div class="clo-4">
+                        <label>FD</label>
+                    </div>
+                    <div class="clo-4">
 
-                <select id="internalPipeDiaUnit" name="internalPipeDia" required>
-                    <option value="m" selected>m</option>
-<!--                    <option value="inch">inch</option>-->
-<!--                    <option value="mm">mm</option>-->
-                    <!-- Add more options as needed -->
-                </select>
+                        <input type="text" id="FD" name="FD" value="{{data['FD'][0]}}" required placeholder="FD">
 
-            </div>
+                    </div>
 
-            <div style="margin:0% ;padding:0%" class="col-1">
+                    <div class="clo-4">
 
-            </div>
-            <!-- <div style="margin:0% ;padding:0%; " class="col-2">
+                    </div>
+                </div>
 
-            </div> -->
-            <div class="col-3">
+                <div class="row">
+                    <div class="clo-4">
+                        <label>fi</label>
+                    </div>
+                    <div class="clo-4">
 
+                        <input type="text" id="fi" name="fi" value="{{data['fi'][0]}}" required placeholder="fi">
 
-                <!-- <input type="text" id="densityPipe" name="densityPipe" required placeholder="Density Pipe"> -->
+                    </div>
 
-                <!-- <input type="text" id="speedSoundPipe" name="speedSoundPipe" required placeholder="Speed of Sound in Pipe"> -->
+                    <div class="clo-4">
 
-                <!-- <input type="text" id="speedSoundPipe" name="speedSoundPipe" required placeholder="Outlet Speed Sound Pipe"> -->
+                    </div>
+                </div>
 
-                <!-- <input type="text" id="densityAir" name="densityAir" required placeholder="Density Air"> -->
+                <div class="row">
+                    <div class="clo-4">
+                        <label>rw</label>
+                    </div>
+                    <div class="clo-4">
 
-                <!-- <input type="text" id="speedSoundAir" name="speedSoundAir" required placeholder="Speed Sound Air"> -->
+                        <input type="text" id="rw" name="rw" value="{{data['rw'][0]}}" required placeholder="rw">
 
+                    </div>
 
+                    <div class="clo-4">
 
-                <input type="text" id="pipeWallThickness" name="pipeWallThickness" value="{{data['pipeWallThickness'][0]}}" required placeholder="Pipe Wall Thickness">
-
-                <input type="text" id="speedSoundLiq" name="speedSoundLiq" value="{{data['speedSoundLiq'][0]}}" required placeholder="Speed Sound Liquid">
-
-                <input type="text" id="reqCV" name="reqCV" value="{{data['reqCV'][0]}}" required placeholder="Required CV">
-
-                <input type="text" id="FL" name="FL" value="{{data['FL'][0]}}" required placeholder="FL">
-
-                <input type="text" id="fi" name="fi" value="{{data['fi'][0]}}" required placeholder="fi">
-
-                <input type="text" id="FD" name="FD" value="{{data['FD'][0]}}" required placeholder="FD">
-
-                <input type="text" id="rw" name="rw" value="{{data['rw'][0]}}" required placeholder="rw">
-
-            </div>
-
-            <div style="margin:0% ;padding:0%" class="col-1">
-                <!-- <label for="">unit</label> -->
-
-
-                <select id="pipeWallThicknessUnit" name="pipeWallThickness" required>
-                    <option value="m" selected>m</option>
-<!--                    <option value="inch">inch</option>-->
-<!--                    <option value="mm">mm</option>-->
-                    <!-- Add more options as needed -->
-                </select>
-
-                <select id="speedSoundLiqUnit" name="speedSoundLiq" required>
-                    <option value="grade1" selected>m/sec</option>
-                    <!-- Add more options as needed -->
-                </select>
+                    </div>
+                </div>
 
 
             </div>
+
 
             <div class="col-3" style="text-align: center;">
                 <div class="row">
-                    <div class="col-12">
-                        <p>Output</p>
+                    <div class="col-12" style="text-align : center;">
+                        <button type="submit">Calculate</button>
                     </div>
-                    <div class="col-9" style="text-align: right; padding-right: 0px;">
-                       <h1>{{value}} </h1>
+                    <div class="col-9" style="text-align: right; padding-right: 0px; margin-top:30px">
+                        <h1>{{value}} </h1>
                     </div>
-                    <div class="col-3" style="text-align: left; padding-left: 5px; font-size: 0.75rem; padding-top: 25px;">
+                    <div class="col-3"
+                        style="text-align: left; padding-left: 5px; font-size: 0.75rem;margin-top:30px; padding-top: 25px;">
                         <p>dBA</p>
                     </div>
                 </div>
@@ -223,12 +399,17 @@
             </div>
 
 
-            <div class="col-12">
+        </div>
+
+<!--
+        <div class="row">
+            <div class="col-9" style="text-align: right;">
                 <button type="submit">Calculate</button>
             </div>
+        </div> -->
 
-        </div>
- </form>
+
+    </form>
 
 
 
