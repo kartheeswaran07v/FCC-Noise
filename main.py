@@ -66,7 +66,6 @@ def liqNoise():
                             1293, float(a['internalPipeDia'][0]), 343)
         except:
             output_ = "N/A"
-        # print(output_)
         return render_template('liq-noise.html', data=a, value=output_)
     return render_template('liq-noise.html', data=initial_data, value=0)
 
