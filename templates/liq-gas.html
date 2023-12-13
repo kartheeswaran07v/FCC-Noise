@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Gas Noise Calculation</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 105vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1300px;
+        }
+
+        label {
+            margin-top: 8px;
+            width: 180px;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .label1 {
+            color: #478cb5;
+            width: auto;
+            margin: 0px;
+            padding: 0%;
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            font-size: 12px;
+            margin-left: 20px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            width: 60px;
+            padding: 8px;
+            font-size: 12px;
+            margin-left: 20px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #478cb5;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        button:hover {
+            background-color: #0f4564;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="{{url_for('gasNoise')}}" method="post">
+        <div class="row" style="padding-left: 0px;">
+            <div class="col-12" style="text-align: left;padding-left: 0px;">
+                <label class="label1">Gas Noise Calculation</label>
+            </div>
+        </div>
+
+        <div class="row " style="margin-top: 15px;">
+
+            <div class="col-5">
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Mass Flowrate</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="massFlowrate" name="massFlowrate" value="{{data['massFlowrate'][0]}}"
+                            required placeholder="Mass Flowrate">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="massFlowrateUnit" name="massFlowrateUnit" required>
+                            <option value="kg/m3" selected>kg/hr</option>
+                            <option value="kg/sec" selected>kg/sec</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Inlet Pressure</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="iPres" name="iPres" value="{{data['iPres'][0]}}" required
+                            placeholder="iPres">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="iPresUnit" name="iPres" required>
+                            <option value="Pa(g)" selected>Pa(g)</option>
+                            <option value="Pa(a)" selected>Pa(a)</option>
+                            <option value="bar(a)" selected>bar(a)</option>
+                            <option value="bar(g)" selected>bar(g)</option>
+                            <option value="MPa(g)" selected>MPa(g)</option>
+                            <option value="MPa(a)" selected>MPa(a)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Outlet Pressure</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="oPres" name="oPres" value="{{data['oPres'][0]}}" required
+                            placeholder="Outlet Pressure">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="oPresUnit" name="oPresUnit" required>
+                            <option value="Pa(g)" selected>Pa(g)</option>
+                            <option value="Pa(a)" selected>Pa(a)</option>
+                            <option value="bar(a)" selected>bar(a)</option>
+                            <option value="bar(g)" selected>bar(g)</option>
+                            <option value="MPa(g)" selected>MPa(g)</option>
+                            <option value="MPa(a)" selected>MPa(a)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Inlet Abs. Temp</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="iAbsTemp" name="iAbsTemp" value="{{data['iAbsTemp'][0]}}" required
+                            placeholder="Inlet Abs. Temp">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="iAbsTempUnit" name="iAbsTempUnit" required>
+                            <option value="°C" selected>°C</option>
+                            <option value="°F" selected>°F</option>
+                            <option value="K" selected>K</option>
+                            <option value="R" selected>R</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Molecular Weight</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="molecularMass" name="molecularMass" value="{{data['molecularMass'][0]}}"
+                            required placeholder="Molecular Weight">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="mMassUnit" name="mMassUnit" required>
+                            <option value="kg/kmol" selected>kg/kmol</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Specific Heat Ratio </label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="specificHeatRatio_gamma" name="specificHeatRatio_gamma"
+                            value="{{data['specificHeatRatio_gamma'][0]}}" required placeholder="specific HeatRatio">
+                    </div>
+
+                    <div class="clo-4">
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Required Cv</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="reqCV" name="reqCV" value="{{data['reqCV'][0]}}" required
+                            placeholder="Required Cv">
+
+                    </div>
+
+                    <!-- <div class="clo-4">
+
+                    </div> -->
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Inlet Pipe Size</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="internalPipeDia" name="internalPipeDia"
+                            value="{{data['internalPipeDia'][0]}}" required placeholder="Inlet Pipe Size">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="internalPipeDiaUnit" name="internalPipeDiaUnit" required>
+                            <option value="inch" selected>inch</option>
+                            <option value="m" selected>m</option>
+                            <option value="mm" selected>mm</option>
+                            <option value="cm" selected>cm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Outlet Pipe Size</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="oPipeSize" name="oPipeSize" value="{{data['oPipeSize'][0]}}" required
+                            placeholder="Outlet Pipe Size">
+                    </div>
+
+                    <div class="clo-2">
+                        <select id="oPipeSizeUnit" name="oPipeSizeUnit" required>
+                            <option value="inch" selected>inch</option>
+                            <option value="m" selected>m</option>
+                            <option value="mm" selected>mm</option>
+                            <option value="cm" selected>cm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Pipe Wall Thickness </label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="tS" name="tS" value="{{data['tS'][0]}}" required
+                            placeholder="Pipe Wall Thickness">
+
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="tSUnit" name="tSUnit" required>
+                            <option value="inch" selected>inch</option>
+                            <option value="m" selected>m</option>
+                            <option value="mm" selected>mm</option>
+                            <option value="cm" selected>cm</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="col-5">
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Inlet Density</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="inletDensity" name="inletDensity" value="{{data['inletDensity'][0]}}"
+                            required placeholder="inletDensity">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="inletDensityUnit" name="inletDensityUnit" required>
+                            <option value="Kg/m3" selected>Kg/m3</option>
+                        </select>
+                    </div>
+                    
+                </div>
+
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>valveSize</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="valveSize" name="valveSize" value="{{data['valveSize'][0]}}" required
+                            placeholder="valveSize">
+
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="valveSizeUnit" name="valveSizeUnit" required>
+                            <option value="inch" selected>inch</option>
+                            <option value="m" selected>m</option>
+                            <option value="mm" selected>mm</option>
+                            <option value="cm" selected>cm</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Wetted Perimeter of a Single Passages</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="Iw" name="Iw" value="{{data['Iw'][0]}}" required placeholder="Iw">
+
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="IwUnit" name="IwUnit" required>
+                            <option value="inch" selected>inch</option>
+                            <option value="m" selected>m</option>
+                            <option value="mm" selected>mm</option>
+                            <option value="cm" selected>cm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Number of flow Passages</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="No" name="No" value="{{data['No'][0]}}" required
+                            placeholder="Number of flow Passages">
+
+                    </div>
+
+                    
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Area</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="A" name="A" value="{{data['A'][0]}}" required placeholder="A">
+
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="AUnit" name="AUnit" required>
+                            <option value="inch2" selected>inch2</option>
+                            <option value="m2" selected>m2</option>
+                            <option value="mm2" selected>mm2</option>
+                            <option value="cm2" selected>cm2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Valve Correction Fator Aη</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="aEta" name="aEta" value="{{data['aEta'][0]}}" required
+                            placeholder="Valve Correction Fator Aη">
+                    </div>
+
+                    <div class="clo-4">
+                       
+                    </div>
+                </div>
+
+
+
+                <!-- <div class="row">
+                    <div class="clo-4">
+                        <label>Universal Gas Constant</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="R" name="R" value="" required
+                            placeholder="Universal Gas Constant">
+                    </div>
+
+                    <div class="clo-4">
+                        <select id="R" name="R" required>
+                            <option value="m" selected>m</option>
+                        </select>
+                    </div>
+                </div> -->
+
+                <!-- <div class="row">
+                    <div class="clo-4">
+                        <label>fs</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="fs" name="fs" value="" required
+                            plaholder="fs">
+
+                    </div>
+                </div> -->
+
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>stp</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="stp" name="stp" value="{{data['stp'][0]}}" required
+                            placeholder="Required CV">
+
+                    </div>
+                    <div class="clo-4">
+                      
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Actual Atm. Pressure</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="atmPressure_pa" name="atmPressure_pa"
+                            value="{{data['atmPressure_pa'][0]}}" required placeholder="atmPressure_pa">
+
+                    </div>
+
+                    <div class="clo-4">
+                        <div class="clo-4">
+                            <select id="atmPressure_paUnit" name="atmPressure_paUnit" required>
+                                <option value="Pa(g)" selected>Pa(g)</option>
+                                <option value="Pa(a)" selected>Pa(a)</option>
+                                <option value="bar(a)" selected>bar(a)</option>
+                                <option value="bar(g)" selected>bar(g)</option>
+                                <option value="MPa(g)" selected>MPa(g)</option>
+                                <option value="MPa(a)" selected>MPa(a)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row">
+                    <div class="clo-4">
+                        <label>stdAtmPres_ps</label>
+                    </div>
+                    <div class="clo-4">
+
+                        <input type="text" id="stdAtmPres_ps" name="stdAtmPres_ps" value="" required
+                            placeholder="stdAtmPres_ps">
+                    </div>
+
+                </div> -->
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>FLP</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="FLP" name="FLP" value="{{data['FLP'][0]}}" required placeholder="FLP">
+                    </div>
+
+                    <div class="clo-4">
+                       
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="clo-4">
+                        <label>Fp</label>
+                    </div>
+                    <div class="clo-4">
+                        <input type="text" id="Fp" name="Fp" value="{{data['Fp'][0]}}" required placeholder="Fp">
+                    </div>
+
+                    <div class="clo-4">
+                       
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-2" style="text-align: center;">
+                <div class="row">
+                    <div class="col-12" style="text-align : center;">
+                        <button type="submit">Calculate</button>
+                    </div>
+                    <div class="col-9" style="text-align: right; padding-right: 0px; margin-top:30px">
+                        <h1>{{value}} </h1>
+                    </div>
+                    <div class="col-3"
+                        style="text-align: left; padding-left: 5px; font-size: 0.75rem;margin-top:30px; padding-top: 25px;">
+                        <p>dBA</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+        <!--
+        <div class="row">
+            <div class="col-9" style="text-align: right;">
+                <button type="submit">Calculate</button>
+            </div>
+        </div> -->
+
+
+    </form>
+
+
+
+
+
+
+
+</body>
+
+</html>
