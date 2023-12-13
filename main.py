@@ -62,15 +62,15 @@ def gasNoise():
     if request.method == "POST":
         data = request.form.to_dict(flat=False)
         a = jsonify(data).json
-        # try:
-        output_ = lpae_1m(float(a['specificHeatRatio_gamma'][0]), float(a['iPres'][0]), float(a['oPres'][0]), float(a['FLP'][0]), float(a['Fp'][0]),
-                          float(a['inletDensity'][0]), float(a['massFlowrate'][0]), float(a['aEta'][0]), float(8314), float(a['iAbsTemp'][0]),
-                          float(a['molecularMass'][0]), float(a['oPipeSize'][0]), float(a['internalPipeDia'][0]), float(a['stp'][0]), float(a['No'][0]),
-                          float(a['A'][0]), float(a['Iw'][0]), float(a['reqCV'][0]), float(5000),
-                          float(343), float(a['valveSize'][0]), float(a['tS'][0]), float(1), float(a['atmPressure_pa'][0]),
-                          float(101325), float(8000), -3.002)
-        # except:
-        #     output_ = "N/A"
+        try:
+            output_ = lpae_1m(float(a['specificHeatRatio_gamma'][0]), float(a['iPres'][0]), float(a['oPres'][0]), float(a['FLP'][0]), float(a['Fp'][0]),
+                              float(a['inletDensity'][0]), float(a['massFlowrate'][0]), float(a['aEta'][0]), float(8314), float(a['iAbsTemp'][0]),
+                              float(a['molecularMass'][0]), float(a['oPipeSize'][0]), float(a['internalPipeDia'][0]), float(a['stp'][0]), float(a['No'][0]),
+                              float(a['A'][0]), float(a['Iw'][0]), float(a['reqCV'][0]), float(5000),
+                              float(343), float(a['valveSize'][0]), float(a['tS'][0]), float(1), float(a['atmPressure_pa'][0]),
+                              float(101325), float(8000), -3.002)
+        except KeyError:
+            output_ = "N/A"
         # return f"<p>{a}</p>"
         return render_template('liq-gas.html', value=round(output_, 2), data=a)
     return render_template('liq-gas.html', data=initial_data, value=0)
