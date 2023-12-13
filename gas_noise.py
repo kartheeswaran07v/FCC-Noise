@@ -982,15 +982,15 @@ def lpae_1m(gamma, inletPressure, outletPressure, Flp, Fp, Pi, massflowrate, aEt
     return output
 
 
-print(lpae_1m(sc_initial['specificHeatRatio_gamma'], sc_initial['iPres'], sc_initial['oPres'], sc_initial['FLP'],
-              sc_initial['Fp'],
-              sc_initial['inletDensity'], sc_initial['massFlowrate'], sc_initial['aEta'], sc_initial['R'],
-              sc_initial['iAbsTemp'],
-              sc_initial['molecularMass'], sc_initial['oPipeSize'], sc_initial['internalPipeDia'], sc_initial['stp'],
-              sc_initial['No'],
-              sc_initial['A'], sc_initial['Iw'], sc_initial['reqCV'], sc_initial['SpeedOfSoundinPipe_Cs'],
-              sc_initial['SpeedOfSoundInAir_Co'],
-              sc_initial['valveSize'], sc_initial['tS'], sc_initial['fs'], sc_initial['atmPressure_pa'],
-              sc_initial['stdAtmPres_ps'], sc_initial['DensityPipe_Ps'], -3.002))
+# print(lpae_1m(sc_initial['specificHeatRatio_gamma'], sc_initial['iPres'], sc_initial['oPres'], sc_initial['FLP'],
+#               sc_initial['Fp'],
+#               sc_initial['inletDensity'], sc_initial['massFlowrate'], sc_initial['aEta'], sc_initial['R'],
+#               sc_initial['iAbsTemp'],
+#               sc_initial['molecularMass'], sc_initial['oPipeSize'], sc_initial['internalPipeDia'], sc_initial['stp'],
+#               sc_initial['No'],
+#               sc_initial['A'], sc_initial['Iw'], sc_initial['reqCV'], sc_initial['SpeedOfSoundinPipe_Cs'],
+#               sc_initial['SpeedOfSoundInAir_Co'],
+#               sc_initial['valveSize'], sc_initial['tS'], sc_initial['fs'], sc_initial['atmPressure_pa'],
+#               sc_initial['stdAtmPres_ps'], sc_initial['DensityPipe_Ps'], -3.002))
 
 # formulas for Mo>0.3 is pending... Done 18/02
