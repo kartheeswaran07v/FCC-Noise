@@ -32,8 +32,8 @@ class products(db.Model):
     # relationship as parent
 
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 
 # Routes
