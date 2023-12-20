@@ -71,6 +71,8 @@ def gasNoise():
                               float(101325), float(8000), -3.002)
         except KeyError:
             output_ = "N/A"
+        except ValueError:
+            output_ = "N/A"
         return render_template('liq-gas.html', value=round(output_, 2), data=a)
     return render_template('liq-gas.html', data=initial_data, value=0)
 
